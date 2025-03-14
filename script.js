@@ -28,6 +28,23 @@ let colorList = [
     'yellow'
 ];
 
+// Wake Lock API to stop the screen from turning off
+let wakeLock = null;
+
+async function requestWakeLock() {
+    try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => {
+            console.log('Wake Lock was released');
+        });
+        console.log('Wake Lock is active');
+    } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+    }
+}
+
+requestWakeLock();
+
 /* Control Icon Movement and call Style Change on Wall Impact*/
 function movement() {
     x += vx;
